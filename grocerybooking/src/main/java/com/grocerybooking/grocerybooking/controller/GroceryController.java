@@ -16,7 +16,6 @@ import java.util.List;
 public class GroceryController {
     private GroceryService groceryService;
 
-    //Build addTodo REST API
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GroceryDto> addGroceryItem(@RequestBody GroceryDto groceryDto) {
@@ -24,51 +23,43 @@ public class GroceryController {
         return new ResponseEntity<>(savedGrocery, HttpStatus.CREATED);
     }
 
-    //build getTodo REST API
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<GroceryDto> viewGroceryItem(@PathVariable("id") Long groceryId) {
         GroceryDto groceryDto = groceryService.viewGroceryItem(groceryId);
         return new ResponseEntity<>(groceryDto, HttpStatus.OK);
     }
 
-    //build getAllTodos REST API
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<List<GroceryDto>> viewAllGroceryItem() {
         List<GroceryDto> groceryDtos = groceryService.viewAllGroceryItems();
-//        return new ResponseEntity<>(todoDtos,HttpStatus.OK);
+//        return new ResponseEntity<>(groceryDtos,HttpStatus.OK);
         return ResponseEntity.ok(groceryDtos);
     }
 
-    //build updateTodo REST API
-
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GroceryDto> updateGroceryDetails(@RequestBody GroceryDto groceryDto, @PathVariable("id") Long groceryId) {
         GroceryDto updatedGrocery = groceryService.updateGroceryDetails(groceryDto, groceryId);
         return ResponseEntity.ok(updatedGrocery);
     }
 
-
-    //build deleteTodo REST API
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteGroceryItem(@PathVariable("id") Long groceryId) {
         groceryService.deleteGroceryItem(groceryId);
         return ResponseEntity.ok("Item deleted successfully!");
     }
 
-    //build deleteTodo REST API
-    @DeleteMapping("{id}/add")
+    @PatchMapping("/{id}/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addInventory(@PathVariable("id") Long groceryId) {
         groceryService.addInventory(groceryId);
         return ResponseEntity.ok("Inventory increased!");
     }
 
-    //build deleteTodo REST API
-    @DeleteMapping("{id}/reduce")
+    @PatchMapping("/{id}/reduce")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> reduceInventory(@PathVariable("id") Long groceryId) {
         groceryService.reduceInventory(groceryId);

@@ -9,6 +9,7 @@ public class OrderGrocery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long id;
 
     @Column(name = "product_id")

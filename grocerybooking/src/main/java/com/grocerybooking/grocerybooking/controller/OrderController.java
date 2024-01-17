@@ -1,5 +1,6 @@
 package com.grocerybooking.grocerybooking.controller;
 
+import com.grocerybooking.grocerybooking.dto.OrderDto;
 import com.grocerybooking.grocerybooking.entity.Order;
 import com.grocerybooking.grocerybooking.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +18,26 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-//    @PreAuthorize("hasRole('USER')")
-    public List<Order> getAllOrders() {
+    @PreAuthorize("hasRole('USER')")
+    public List<OrderDto> getAllOrders() {
         return orderService.getAllOrders();
     }
 
     @GetMapping("/{orderId}")
-//    @PreAuthorize("hasRole('USER')")
-    public Optional<Order> getOrderById(@PathVariable Long orderId) {
+    @PreAuthorize("hasRole('USER')")
+    public OrderDto getOrderById(@PathVariable Long orderId) {
         return orderService.getOrderById(orderId);
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('USER')")
-    public Order createOrder(@RequestBody Order order) {
+    @PreAuthorize("hasRole('USER')")
+    public OrderDto createOrder(@RequestBody Order order) {
         return orderService.createOrder(order);
     }
 
     @PatchMapping("/{orderId}/status")
-//    @PreAuthorize("hasRole('USER')")
-    public Optional<Order> updateOrderStatus(@PathVariable Long orderId, @RequestParam String status) {
+    @PreAuthorize("hasRole('USER')")
+    public OrderDto updateOrderStatus(@PathVariable Long orderId, @RequestBody String status) {
         return orderService.updateOrderStatus(orderId, status);
     }
 }
